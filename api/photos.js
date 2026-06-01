@@ -3,6 +3,7 @@
  */
 
 const { Router } = require('express')
+const multer = require('multer')
 
 const { validateAgainstSchema } = require('../lib/validation')
 const {
@@ -11,12 +12,31 @@ const {
   getPhotoById
 } = require('../models/photo')
 
+const imageTypes = {
+  'image/jpeg': 'jpg',
+  'image/png': 'png'
+}
+
 const router = Router()
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  fileFilter: (req, file, cb) => {
+    if (imageTypes[file.mimetype]) {
+      cb(null, true)
+    } else {
+      cb(null, false)
+    }
+  }
+})
 
 /*
  * POST /photos - Route to create a new photo.
  */
-router.post('/', async (req, res) => {
+router.post('/', upload.single('file'), async (req, res) => {
+  if (!req.file) {
+    return res.status(400).send({ error: "Invalid file type." })
+  }
   if (validateAgainstSchema(req.body, PhotoSchema)) {
     try {
       const id = await insertNewPhoto(req.body)
