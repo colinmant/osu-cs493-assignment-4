@@ -3,6 +3,7 @@ const morgan = require('morgan')
 
 const api = require('./api')
 const { connectToDb } = require('./lib/mongo')
+const { connectToRabbit } = require('./lib/rabbit')
 
 const app = express()
 const port = process.env.PORT || 8000
@@ -28,7 +29,8 @@ app.use('*', function (req, res, next) {
   })
 })
 
-connectToDb(function () {
+connectToDb(async function () {
+  await connectToRabbit('photos')
   app.listen(port, function () {
     console.log("== Server is running on port", port)
   })

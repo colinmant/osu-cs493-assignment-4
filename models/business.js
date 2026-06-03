@@ -87,9 +87,9 @@ async function getBusinessById(id) {
     const results = await collection.aggregate([
       { $match: { _id: new ObjectId(id) } },
       { $lookup: {
-          from: "photos",
+          from: "photos.files",
           localField: "_id",
-          foreignField: "businessId",
+          foreignField: "metadata.businessId",
           as: "photos"
       }}
     ]).toArray()

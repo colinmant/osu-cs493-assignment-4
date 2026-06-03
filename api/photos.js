@@ -4,6 +4,7 @@
 
 const { Router } = require('express')
 const multer = require('multer')
+const { getChannel } = require('../lib/rabbit')
 
 const { validateAgainstSchema } = require('../lib/validation')
 const {
@@ -36,6 +37,8 @@ router.post('/', upload.single('file'), async (req, res) => {
   if (validateAgainstSchema(req.body, PhotoSchema)) {
     try {
       const id = await insertNewPhoto(req.body, req.file)
+      const channel = getChannel()
+      channel.sendToQueue('photos', Buffer.from(id.toString()))
       res.status(201).send({
         id: id,
         links: {

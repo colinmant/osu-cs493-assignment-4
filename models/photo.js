@@ -2,7 +2,7 @@
  * Photo schema and data accessor methods.
  */
 
-const { ObjectId, MongoClient, GridFSBucket } = require('mongodb')
+const { ObjectId, GridFSBucket } = require('mongodb')
 
 const { getDbReference } = require('../lib/mongo')
 const { extractValidFields } = require('../lib/validation')
@@ -68,7 +68,8 @@ async function getPhotoById(id) {
     businessId: file.metadata.businessId,
     caption: file.metadata.caption,
     contentType: file.metadata.contentType,
-    url: `/media/photos/${file._id}.${ext}`
+    url: `/media/photos/${file._id}.${ext}`,
+    thumbUrl: `/media/thumbs/${id}.jpg`
 
   }
 }
@@ -81,3 +82,10 @@ function getPhotoDownloadStreamById(id) {
 }
 
 exports.getPhotoDownloadStreamById = getPhotoDownloadStreamById
+
+function getThumbDownloadStreamById(id) {
+  const db = getDbReference()
+  const bucket = new GridFSBucket(db, { bucketName: 'thumbs' })
+  return bucket.openDownloadStreamByName(`${id}.jpg`)
+}
+exports.getThumbDownloadStreamById = getThumbDownloadStreamById
