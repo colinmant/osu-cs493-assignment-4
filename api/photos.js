@@ -9,13 +9,9 @@ const { validateAgainstSchema } = require('../lib/validation')
 const {
   PhotoSchema,
   insertNewPhoto,
-  getPhotoById
+  getPhotoById,
+  imageTypes
 } = require('../models/photo')
-
-const imageTypes = {
-  'image/jpeg': 'jpg',
-  'image/png': 'png'
-}
 
 const router = Router()
 
@@ -39,7 +35,7 @@ router.post('/', upload.single('file'), async (req, res) => {
   }
   if (validateAgainstSchema(req.body, PhotoSchema)) {
     try {
-      const id = await insertNewPhoto(req.body)
+      const id = await insertNewPhoto(req.body, req.file)
       res.status(201).send({
         id: id,
         links: {

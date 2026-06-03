@@ -32,9 +32,18 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/businesses?page=1",
-              "host": ["{{baseUrl}}"],
-              "path": ["businesses"],
-              "query": [{ "key": "page", "value": "1" }]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "businesses"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
             }
           }
         }
@@ -87,8 +96,12 @@
             },
             "url": {
               "raw": "{{baseUrl}}/photos",
-              "host": ["{{baseUrl}}"],
-              "path": ["photos"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "photos"
+              ]
             }
           }
         },
@@ -129,8 +142,12 @@
             },
             "url": {
               "raw": "{{baseUrl}}/photos",
-              "host": ["{{baseUrl}}"],
-              "path": ["photos"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "photos"
+              ]
             }
           }
         },
@@ -177,8 +194,12 @@
             },
             "url": {
               "raw": "{{baseUrl}}/photos",
-              "host": ["{{baseUrl}}"],
-              "path": ["photos"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "photos"
+              ]
             }
           }
         },
@@ -193,6 +214,10 @@
                   "pm.test('Response has businessId', () => {",
                   "  const body = pm.response.json();",
                   "  pm.expect(body).to.have.property('businessId');",
+                  "});",
+                  "pm.test('Response has url', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body).to.have.property('url');",
                   "});"
                 ],
                 "type": "text/javascript"
@@ -204,8 +229,13 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/photos/{{photoId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["photos", "{{photoId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "photos",
+                "{{photoId}}"
+              ]
             }
           }
         }
@@ -213,7 +243,13 @@
     }
   ],
   "variable": [
-    { "key": "businessId", "value": "" },
-    { "key": "photoId", "value": "" }
+    {
+      "key": "businessId",
+      "value": ""
+    },
+    {
+      "key": "photoId",
+      "value": ""
+    }
   ]
 }
